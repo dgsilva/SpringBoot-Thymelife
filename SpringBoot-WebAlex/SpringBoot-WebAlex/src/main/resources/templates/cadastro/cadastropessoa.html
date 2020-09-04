@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Cadastro Pessoa</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<link type="text/css" rel="stylesheet"
+	href="/materialize/css/materialize.css" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="materialize.min.css"
+	media="screen,projection" />
+	
+	<style type="text/css">
+	
+	table.striped>tbody>tr:nth-child(odd){
+	background-color:rgba(158,154,154,0.5);
+	}
+	
+	form input[type=submit]{
+	color:white;
+	}
+	</style>
+	
+</head>
+<body>
+	<h1>Spring Boot + Thymeleaf + Material Design Lite</h1>
+	<br />
+	<h3>Cadastro de Pessoa</h3>
+	<div class="row">
+	<br/>
+	<div th:each = "m : ${msg}">
+	<span th:text = ${m}></span>
+	</div>
+	
+	<br/>
+	
+		<!--Dividi a coluna em 12 -->
+		<form action="salvarpessoa" method="post" th:object="${pessoaobj}"
+			class="col s12" id="formpessoa">
+			<div class="row">
+
+				<div class="input-fiel col s6">
+					<label for="id" class="active">ID:</label> <input name="id"
+						th:field="*{id}" readonly="readonly" id="id">
+				</div>
+				
+
+				<div class="input-fiel col s6">
+					<label for="nome" class="active">Nome:</label><br> 
+					<input type="text" name="nome" placeholder="Digite o seu nome"
+						th:field="*{nome}" id="nome" class="validate"><br>
+				</div>
+				</div>
+				
+				<div class="row">
+					<div class="input-fiel col s12">
+						<label for="sobrenome" class="active">Sobrenome:</label><br>
+						<input type="text" name="sobrenome"
+							placeholder="Digite o seu sobrenome" th:field="*{sobrenome}"
+							id="sobrenome" class="validate"><br>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="input-fiel col s12">
+						<label for="idade" class="active">Idade:</label><br> <input
+							type="text" name="idade" placeholder="Digite a sua idade"
+							th:field="*{idade}" id="idade" class="validate"><br>
+
+					</div>
+				</div>
+                 <div class="row">
+					<div class="input-fiel col s6">
+				<button class="btn waves-effect waves-light" type="submit">
+					Salvar <i class="material-icons right">send</i>
+					</button>
+					<button class="waves-effect waves-light btn" onclick="document.getElementById('formpessoa').reset();">
+					Novo</button>
+				</div>
+				</div>
+		</form>
+	</div>
+	<br />
+	<br />
+	
+	<div class="row">
+	<form action="pesquisarpessoa" method="post" class="col s12">
+	<div class="row">
+	<div class="input-field col s12 ">
+		<label for="nomepesquisar" class="active">Pesquisar por nome:</label> 
+		<input name="nomepesquisar" id="nomepesquisar" class="validate">
+		<input class="btn waves-effect waves-light" type="submit"
+			value="Buscar">
+			<a class="waves-effect waves-ligth	btn" href="/listapessoas">Listas</a>
+			</div>
+			</div>
+	</form>
+</div>
+	<br />
+	<br />
+	
+	<!-- Exibir os dados da pessoa -->
+	         <!--Ela vai colocar uma cor cinza e um branco  -->
+<table class="striped">
+		<thead>
+			<tr>
+				<th>ID:</th>
+				<th>Nome:</th>
+				<th>Sobrenome:</th>
+				<th>Idade:</th>
+				<th>Editar:</th>
+				<th>Excluir:</th>
+			</tr>
+		</thead>
+
+		<tr th:each="pessoa : ${pessoas}">
+			<td th:text="${pessoa.id}"></td>
+			<td><a th:href="@{/telefones/{idpessoa}(idpessoa=${pessoa.id})}"><span th:text="${pessoa.nome}"></span></a></td>
+			<td th:text="${pessoa.sobrenome}"></td>
+			<td th:text="${pessoa.idade}"></td>
+			<td><a
+				th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Editar</a></td>
+			<td><a
+				th:href="@{/removerpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Excluir</a></td>
+		</tr>
+
+	</table>
+	<script type="text/javascript" src="jmaterialize/s/materialize.js"></script>
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+</body>
+</html>
